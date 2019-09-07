@@ -13,10 +13,19 @@ export class UserList extends Component<Props> {
     super(props);
     this.state = {
       userList: [
-        { key: "1", value: "some data" },
-        { key: "1", value: "some data" }
+        {
+          key: "1",
+          value: "some data",
+          description: "some description for the first element"
+        },
+        { key: "2", value: "some data", description: "some description" }
       ]
     };
+  }
+
+  openDetailPage(item) {
+    console.log("i was called");
+    this.props.navigation.navigate("UserDetails", { item });
   }
   render() {
     const { userList } = this.state;
@@ -26,7 +35,12 @@ export class UserList extends Component<Props> {
         <View style={{ padding: 5, flex: 1 }}>
           <FlatList
             data={userList}
-            renderItem={({ item }) => <UserListItem item={item} />}
+            renderItem={({ item }) => (
+              <UserListItem
+                item={item}
+                openDetailPage={item => this.openDetailPage(item)}
+              />
+            )}
           />
         </View>
       </View>
