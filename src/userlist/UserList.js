@@ -59,6 +59,7 @@ export class UserList extends Component<Props> {
 
   render() {
     const { userList, filterOptions, showPicker } = this.state;
+    const { isFetching } = this.props;
 
     return (
       <View style={{ flex: 1 }}>
@@ -70,7 +71,7 @@ export class UserList extends Component<Props> {
           />
         ) : null}
 
-        <Loader />
+        <Loader loading={isFetching} />
         <View style={{ padding: 5, flex: 1 }}>
           <FlatList
             data={userList}
