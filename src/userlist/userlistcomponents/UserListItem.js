@@ -1,11 +1,11 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import Avatar from "./Avatar";
 
 const UserListItem = props => {
-  const { item } = props;
+  const { item, ind } = props;
   return (
-    <View
+    <TouchableOpacity
       style={{
         borderColor: "gray",
         borderTopWidth: 1.2,
@@ -35,7 +35,7 @@ const UserListItem = props => {
           <Text>{item.value}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -14,7 +14,7 @@ export class UserList extends Component<Props> {
     this.state = {
       userList: [
         { key: "1", value: "some data" },
-        { key: "1", value: "some data" }
+        { key: "2", value: "some data" }
       ]
     };
   }
@@ -26,7 +26,9 @@ export class UserList extends Component<Props> {
         <View style={{ padding: 5, flex: 1 }}>
           <FlatList
             data={userList}
-            renderItem={({ item }) => <UserListItem item={item} />}
+            renderItem={({ item, index }) => (
+              <UserListItem item={item} index={index} />
+            )}
           />
         </View>
       </View>
