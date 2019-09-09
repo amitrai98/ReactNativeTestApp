@@ -24,7 +24,7 @@ export default function getUserListReducer(state = initialState, action = {}) {
         isFetching: false,
         success: true,
         failure: false,
-        data: action.data
+        data: action.payload.data
       };
     case types.GET_USER_LIST_FAILURE:
       return {
@@ -32,7 +32,7 @@ export default function getUserListReducer(state = initialState, action = {}) {
         isFetching: false,
         success: false,
         failure: true,
-        error: action.error
+        error: action.payload.error
       };
     default:
       return state;

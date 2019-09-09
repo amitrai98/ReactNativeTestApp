@@ -1,4 +1,4 @@
-import AppConstants from "../utility/AppConstants";
+import ApiConst from "./ApiConst";
 
 var axios = require("axios");
 var authToken = null;
@@ -40,17 +40,20 @@ export default class ApiHandler {
     };
   }
 
-
   /**
    * Logs user in to the app.
    * @param {users's email address} email
    * @param {user's password} password
    */
-  login(email, password) {
+  getUserData(userId, loggedin_user_id) {
     return new Promise((resolve, reject) => {
-      postData = { email: email, password: password };
+      postData = { user_id: userId, loggedin_user_id: loggedin_user_id };
       axios
-        .post(AppConstants.BASE_URL + "/auth", postData)
+        .post(
+          ApiConst.BASE_URL +
+            "/test_staging_merged/ocr-web/mbapiv2/mbapiv2directory/getStaticDirectoryData",
+          postData
+        )
         .then(function(response) {
           return resolve({ response });
         })
@@ -59,3 +62,4 @@ export default class ApiHandler {
         });
     });
   }
+}

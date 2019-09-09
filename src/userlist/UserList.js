@@ -6,40 +6,45 @@ import * as actions from "./UserListActions";
 import AppHeader from "../appheader";
 import { FlatList } from "react-native-gesture-handler";
 import UserListItem from "./userlistcomponents/UserListItem";
+import Loader from "../util/Loader";
 
 type Props = {};
 export class UserList extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      userList: [
-        {
-          key: "1",
-          value: "some data",
-          description: "some description for the first element"
-        },
-        { key: "2", value: "some data", description: "some description" }
-      ]
+      userList: []
     };
   }
 
-  openDetailPage(item) {
-    console.log("i was called");
-    this.props.navigation.navigate("UserDetails", { item });
+  componentDidMount() {
+    this.props.getUserList({ user_id: 588, loggedin_user_id: 588 });
   }
+
+  componentDidUpdate(prevProps) {
+    const { data, isFetching, failure, success, error } = this.props;
+    if (prevProps.isFetching !== isFetching && !isFetching) {
+      if (success) {
+        console.log("data is " + data);
+        this.setState({ userList: data.User });
+      } else if (failure) {
+        console.log("error is " + error);
+      }
+    }
+  }
+
   render() {
     const { userList } = this.state;
+    const { navigation } = this.props;
     return (
       <View style={{ flex: 1 }}>
         <AppHeader title={"User List"} />
+        <Loader />
         <View style={{ padding: 5, flex: 1 }}>
           <FlatList
             data={userList}
             renderItem={({ item }) => (
-              <UserListItem
-                item={item}
-                openDetailPage={item => this.openDetailPage(item)}
-              />
+              <UserListItem item={item} navigation={navigation} />
             )}
           />
         </View>

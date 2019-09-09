@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as appActions from "./UserDetailActions";
+import AppHeader from "../appheader";
 type Props = {};
 
 export class UserDetails extends Component<Props> {
@@ -10,10 +11,20 @@ export class UserDetails extends Component<Props> {
     super(props);
     this.state = {};
   }
+
   render() {
+    const { userDetail, data_tobeshown } = this.props.navigation.state.params;
+    const { navigation } = this.props;
     return (
-      <View>
-        <Text>hello this is new refresh</Text>
+      <View style={{ flex: 1 }}>
+        <AppHeader
+          title={"User Detail"}
+          showBackButton={true}
+          navigation={navigation}
+        />
+        <View>
+          <Text>hello this is new refresh</Text>
+        </View>
       </View>
     );
   }
