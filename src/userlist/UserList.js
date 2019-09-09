@@ -13,7 +13,8 @@ export class UserList extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      userList: []
+      userList: [],
+      dataToBeShown: ["name", "phone", "email", "profilePic", "atwork"]
     };
   }
 
@@ -33,6 +34,13 @@ export class UserList extends Component<Props> {
     }
   }
 
+  openUserDetailPage(item) {
+    this.props.navigation.navigate("UserDetails", {
+      userDetail: item,
+      showData: this.state.dataToBeShown
+    });
+  }
+
   render() {
     const { userList } = this.state;
     const { navigation } = this.props;
@@ -44,7 +52,10 @@ export class UserList extends Component<Props> {
           <FlatList
             data={userList}
             renderItem={({ item }) => (
-              <UserListItem item={item} navigation={navigation} />
+              <UserListItem
+                item={item}
+                openUserDetailPage={() => this.openUserDetailPage(item)}
+              />
             )}
           />
         </View>

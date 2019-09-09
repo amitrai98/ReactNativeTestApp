@@ -4,6 +4,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as appActions from "./UserDetailActions";
 import AppHeader from "../appheader";
+import { containsKey } from "./UserDetailsHelper";
+import { isEmptyField } from "../util/Utility";
 type Props = {};
 
 export class UserDetails extends Component<Props> {
@@ -12,8 +14,14 @@ export class UserDetails extends Component<Props> {
     this.state = {};
   }
 
+  // Name;
+  // 2. Phone number
+  // 3. Email
+  // 4. Profile picture URL
+  // 7. at_work
+
   render() {
-    const { userDetail, data_tobeshown } = this.props.navigation.state.params;
+    const { userDetail, showData } = this.props.navigation.state.params;
     const { navigation } = this.props;
     return (
       <View style={{ flex: 1 }}>
@@ -22,8 +30,40 @@ export class UserDetails extends Component<Props> {
           showBackButton={true}
           navigation={navigation}
         />
-        <View>
-          <Text>hello this is new refresh</Text>
+        <View style={{ margin: 20 }}>
+          {containsKey(showData, "name") ? (
+            <Text>
+              {"Name :- " + userDetail.first_name + " " + userDetail.last_name}
+            </Text>
+          ) : null}
+
+          {containsKey(showData, "phone") &&
+          !isEmptyField(userDetail.phone.mobile_no) ? (
+            <Text style={{ marginTop: 10 }}>
+              {"Phone No. :- " + userDetail.phone.mobile_no}
+            </Text>
+          ) : null}
+
+          {containsKey(showData, "email") && !isEmptyField(userDetail.email) ? (
+            <Text style={{ marginTop: 10 }}>
+              {"Email :- " + userDetail.email}
+            </Text>
+          ) : null}
+
+          {containsKey(showData, "profilePic") &&
+          !isEmptyField(userDetail.email) ? (
+            <Text style={{ marginTop: 10 }}>
+              {"Profile Url:-  " + userDetail.profile_img}
+            </Text>
+          ) : null}
+
+          {containsKey(showData, "atwork") &&
+          !isEmptyField(userDetail.email) ? (
+            <Text style={{ marginTop: 10 }}>
+              {"At Work "}
+              {userDetail.at_work == 1 ? "Yes" : "No"}
+            </Text>
+          ) : null}
         </View>
       </View>
     );
