@@ -6,14 +6,14 @@ import Images from "../../util/Images";
 import { Linking } from "react-native";
 
 const UserListItem = props => {
-  const { item, openUserDetailPage } = props;
+  const { item, openFilterPage } = props;
   let name = "";
   if (!isEmptyField(item.first_name)) name = item.first_name;
   if (!isEmptyField(item.last_name)) name = name + " " + item.last_name;
   return (
     <TouchableOpacity
       onPress={() => {
-        openUserDetailPage(item);
+        openFilterPage(item);
       }}
       style={{
         borderColor: "gray",

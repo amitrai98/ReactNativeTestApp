@@ -7,6 +7,7 @@ import AppHeader from "../appheader";
 import { FlatList } from "react-native-gesture-handler";
 import UserListItem from "./userlistcomponents/UserListItem";
 import Loader from "../util/Loader";
+import UserDataFilter from "./userlistcomponents/UserDataFilter";
 
 type Props = {};
 export class UserList extends Component<Props> {
@@ -14,7 +15,16 @@ export class UserList extends Component<Props> {
     super(props);
     this.state = {
       userList: [],
-      dataToBeShown: ["name", "phone", "email", "profilePic", "atwork"]
+      showPicker: false,
+      selectedItem: {},
+      dataToBeShown: ["name", "phone", "email", "profilePic", "atwork"],
+      filterOptions: [
+        { key: "name" },
+        { key: "phone" },
+        { key: "email" },
+        { key: "profilePic" },
+        { key: "atwork" }
+      ]
     };
   }
 
@@ -34,19 +44,32 @@ export class UserList extends Component<Props> {
     }
   }
 
-  openUserDetailPage(item) {
-    this.props.navigation.navigate("UserDetails", {
-      userDetail: item,
-      showData: this.state.dataToBeShown
+  openFilterPage(item) {
+    this.setState({ showPicker: true, selectedItem: item });
+  }
+
+  openUserDetailPage(showData) {
+    this.setState({ showPicker: false }, () => {
+      this.props.navigation.navigate("UserDetails", {
+        userDetail: this.state.selectedItem,
+        showData: showData
+      });
     });
   }
 
   render() {
-    const { userList } = this.state;
-    const { navigation } = this.props;
+    const { userList, filterOptions, showPicker } = this.state;
+
     return (
       <View style={{ flex: 1 }}>
         <AppHeader title={"User List"} />
+        {showPicker ? (
+          <UserDataFilter
+            filterOptions={filterOptions}
+            openUserDetailPage={showData => this.openUserDetailPage(showData)}
+          />
+        ) : null}
+
         <Loader />
         <View style={{ padding: 5, flex: 1 }}>
           <FlatList
@@ -54,7 +77,7 @@ export class UserList extends Component<Props> {
             renderItem={({ item }) => (
               <UserListItem
                 item={item}
-                openUserDetailPage={() => this.openUserDetailPage(item)}
+                openFilterPage={() => this.openFilterPage(item)}
               />
             )}
           />

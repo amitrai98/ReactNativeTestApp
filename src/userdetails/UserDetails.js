@@ -14,12 +14,6 @@ export class UserDetails extends Component<Props> {
     this.state = {};
   }
 
-  // Name;
-  // 2. Phone number
-  // 3. Email
-  // 4. Profile picture URL
-  // 7. at_work
-
   render() {
     const { userDetail, showData } = this.props.navigation.state.params;
     const { navigation } = this.props;
